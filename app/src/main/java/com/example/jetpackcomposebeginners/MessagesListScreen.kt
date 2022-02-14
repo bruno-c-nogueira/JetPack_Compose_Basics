@@ -1,6 +1,5 @@
 package com.example.jetpackcomposebeginners.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,22 +9,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.jetpackcomposebeginners.R
-import com.example.jetpackcomposebeginners.ui.theme.JetPackComposeBeginnersTheme
+import androidx.navigation.NavHostController
+import com.example.jetpackcomposebeginners.dto.Message
+import com.example.jetpackcomposebeginners.nav.Screen
+import com.example.jetpackcomposebeginners.nav.toJson
 
-
-data class Message(val author: String, val body: String, val resImg: Int)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MessagesList(messages: List<Message>) {
+fun MessagesList(
+    navController: NavHostController,
+    messages: List<Message>,
+) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         itemsIndexed(messages) { index, message ->
-            MessageCard(msg = message)
+            MessageCard(msg = message) {
+                val messageJson = message.toJson()
+                navController.navigate(Screen.ProfileScreen.route +"/"+ messageJson)
+            }
             if (index < messages.size.minus(1)) {
                 Divider(
                     color = Color.Gray, thickness = 1.dp,
@@ -44,38 +48,8 @@ fun MessagesList(messages: List<Message>) {
             CheckBoxCustom()
         }
         item {
-            ExpandedCard(R.drawable.sasuke)
-        }
-        item {
             HelloScreen()
         }
 
-    }
-}
-
-
-@Preview(name = "Light Mode")
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Dark Mode", device = "spec:Normal;1080;1920;px;480dpi;portrait"
-)
-@Composable
-fun DefaultPreview() {
-    JetPackComposeBeginnersTheme {
-        MessagesList(
-            listOf(
-                Message(
-                    "Naruto Uzumaki",
-                    "I'm gonna be the hokage",
-                    R.drawable.naruto
-                ),
-                Message(
-                    "Sasuke Uchiha",
-                    "Hey my pleasure is learn JetPack Compose",
-                    R.drawable.sasuke
-                )
-            )
-        )
     }
 }

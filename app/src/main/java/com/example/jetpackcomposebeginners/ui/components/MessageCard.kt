@@ -19,16 +19,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposebeginners.R
+import com.example.jetpackcomposebeginners.dto.Message
 import com.example.jetpackcomposebeginners.ui.theme.JetPackComposeBeginnersTheme
 
 @Composable
-fun MessageCard(msg: Message) {
+fun MessageCard(msg: Message, onProfileImgClicked: (Message) -> Unit?) {
     Row(modifier = Modifier.padding(all = 8.dp).fillMaxWidth()) {
         Image(
             modifier = Modifier
                 .size(70.dp)
                 .clip(CircleShape)
-
+                .clickable { onProfileImgClicked.invoke(msg) }
                 .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape),
             painter = painterResource(id = msg.resImg),
             contentDescription = "Profile"
@@ -43,8 +44,7 @@ fun MessageCard(msg: Message) {
         Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
             Text(
                 text = msg.author,
-                color = MaterialTheme.colors.secondaryVariant,
-                style = MaterialTheme.typography.subtitle2
+                style = MaterialTheme.typography.h1
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -77,6 +77,6 @@ fun MessageCard(msg: Message) {
 @Composable
 fun test(){
     JetPackComposeBeginnersTheme {
-        MessageCard(Message("jdw", "teste", R.drawable.naruto))
+        MessageCard(Message("jdw", "teste", R.drawable.naruto)){}
     }
 }
