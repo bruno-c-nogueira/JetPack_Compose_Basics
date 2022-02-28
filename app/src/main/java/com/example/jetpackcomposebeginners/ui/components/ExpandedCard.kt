@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,8 +41,8 @@ fun ExpandedCard(cardImageRes: Int?, downMessage: String?) {
                         .padding(25.dp)
                         .height(250.dp)
                         .width(250.dp)
-                        .clip(CircleShape)
-                        .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+                        .clip(if(expanded) RectangleShape else CircleShape )
+                        .border(1.5.dp, MaterialTheme.colors.secondary, if(expanded) RectangleShape else CircleShape)
                 )
                 AnimatedVisibility(visible = expanded) {
                     downMessage?.let {

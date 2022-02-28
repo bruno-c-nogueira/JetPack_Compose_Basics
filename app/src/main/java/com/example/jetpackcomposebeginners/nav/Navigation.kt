@@ -35,6 +35,11 @@ fun Navigation() {
                         "Sasuke Uchiha",
                         "Hey my pleasure is learn JetPack Compose",
                         R.drawable.sasuke
+                    ),
+                    Message(
+                        "Itachi Uchiha",
+                        "You're weak, you lacks hate",
+                        R.drawable.itachi
                     )
                 )
             )
